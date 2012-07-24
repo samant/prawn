@@ -372,6 +372,17 @@ module Prawn
       File.open(filename,mode) { |f| f << render }
     end
 
+    #  Concat a PDF files at the end of the existing document
+    #
+    #  pdf.concat("foo.pdf")
+    #
+    def concat(pdf_file)
+      pdf_temp_nb_pages = Prawn::Document.new(:template => pdf_file).page_count
+      (1..pdf_temp_nb_pages).each do |i|
+        self.start_new_page(:template => pdf_file, :template_page => i)
+      end
+    end
+
     # The bounds method returns the current bounding box you are currently in,
     # which is by default the box represented by the margin box on the
     # document itself.  When called from within a created <tt>bounding_box</tt>
